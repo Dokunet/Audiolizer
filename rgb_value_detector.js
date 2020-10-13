@@ -51,7 +51,7 @@ async function getRGB() {
     
     console.log("this is a test 1" + audioCtx.sampleRate)
 
-var frameCount = audioCtx.sampleRate * 10000.0;
+var frameCount = audioCtx.sampleRate * 30;
 
     let myArrayBuffer = audioCtx.createBuffer(3, frameCount, audioCtx.sampleRate);
    console.log(frameCount);
@@ -65,7 +65,7 @@ var frameCount = audioCtx.sampleRate * 10000.0;
         console.log("Buffering, please wait 2");
     }
     source = myArrayBuffer;
-     // source = audioCtx.createBufferSource();
+      //source = audioCtx.createBufferSource();
 
     source.buffer = myArrayBuffer; 
 
@@ -109,10 +109,12 @@ async function playSound(){
     
 
     console.log(source);
+    /* const mediaRecorder = new MediaRecorder(sourceStream); */
     var a = document.createElement("a");
     document.body.appendChild(a);
     source.buffer = audioCtx.createBufferSource();
-    url = window.URL.createObjectURL(new Blob(source, {type: 'audio/wav; codecs=0'}));
+    var wav = audioBufferToWav(source);
+    url = window.URL.createObjectURL(new Blob([wav], {type: 'audio/wav; codecs=0'}));
     a.href = url;
     a.download = 'filename.wav';
     a.innerHTML = 'Download .wav file';
