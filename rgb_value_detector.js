@@ -1,6 +1,6 @@
 
 let source;
-let audioCtx;
+let audioCtx = new(window.AudioContext || window.webkitAudioContext);
 
 async function getRGB() { 
 
@@ -48,13 +48,13 @@ async function getRGB() {
   
 
 
-     audioCtx = new(window.AudioContext || window.webkitAudioContext);
-console.log("this is a test 1" + audioCtx.sampleRate)
+    
+    console.log("this is a test 1" + audioCtx.sampleRate)
 
 var frameCount = audioCtx.sampleRate * 10000.0;
 
     let myArrayBuffer = audioCtx.createBuffer(3, frameCount, audioCtx.sampleRate);
-   
+   console.log(frameCount);
     for (var channel = 0; channel < myArrayBuffer.numberOfChannels; channel ++){
       
         let nowBuffering = myArrayBuffer.getChannelData(channel)     
@@ -64,15 +64,12 @@ var frameCount = audioCtx.sampleRate * 10000.0;
         }
         console.log("Buffering, please wait 2");
     }
-     source = audioCtx.createBufferSource();
+    source = myArrayBuffer;
+     // source = audioCtx.createBufferSource();
 
     source.buffer = myArrayBuffer; 
 
     console.log(myArrayBuffer);
-
-    localStorage.setItem('source', source);
-    localStorage.setItem('audioCtx', audioCtx);
-
 
     /* let audioCtx2 = new(window.AudioContext || window.webkitAudioContext);
 
@@ -97,3 +94,65 @@ async function playSound(){
 
 
 }
+
+
+
+
+
+ async function download(){
+
+
+
+
+
+    /* var rec = new Recorder(source ,{numChannels:3}); */
+    
+
+    console.log(source);
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    source.buffer = audioCtx.createBufferSource();
+    url = window.URL.createObjectURL(new Blob(source, {type: 'audio/wav; codecs=0'}));
+    a.href = url;
+    a.download = 'filename.wav';
+    a.innerHTML = 'Download .wav file';
+
+/* 
+    rec.exportWAV((blob) => {
+        console.log(source);
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        url = window.URL.createObjectURL(new Blob([source], {type: 'audio/wav'}));
+        a.href = url;
+        a.download = 'filename.wav';
+        a.innerHTML = 'Download .wav file';
+
+        console.log(blob);
+     //   window.URL.revokeObjectURL(url);
+    }) */
+
+
+
+  //  Recorder.forceDownload(idk, 'testing.wav');
+
+
+}
+/* 
+function createDownloadLink(blob) {
+    var url = URL.createObjectURL(blob);
+    var au = document.createElement('audio');
+    var li = document.createElement('li');
+    var link = document.createElement('a');
+    //add controls to the <audio> element 
+    au.controls = true;
+    au.src = url;
+    //link the a element to the blob 
+    link.href = url;
+    link.download = new Date().toISOString() + '.wav';
+    link.innerHTML = link.download;
+    //add the new audio and a elements to the li element 
+    li.appendChild(au);
+    li.appendChild(link);
+    //add the li element to the ordered list 
+    recordingsList.appendChild(li);
+} */
