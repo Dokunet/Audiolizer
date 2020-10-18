@@ -50,14 +50,18 @@ async function playSound(){
     console.log('it should have played by now');
 }
 
- async function download(){
+async function download(){
     console.log(source);
+    console.log($('#file-type').val() + "sdkjfgsdikfjb")
+    console.log($(this))
     var a = document.createElement("a");
-    document.getElementById("myList1").appendChild(a);
+    document.getElementById("right_panel").appendChild(a);
     source.buffer = audioCtx.createBufferSource();
+    console.log($('file-type').val())
     var wav = audioBufferToWav(source);
-    url = window.URL.createObjectURL(new Blob([wav], {type: 'audio/mp3; codecs=0'}));
+    url = window.URL.createObjectURL(new Blob([wav], {type: 'audio/'+ $('#file-type').val() + '; codecs=0'}));
     a.href = url;
-    a.download = 'filename.mp3';
-    a.innerHTML = 'Download.wav';
+    a.download = 'filename.'+ $('#file-type').val();
+    a.innerHTML = 'Download.' + $('#file-type').val() +'<br>';
+   
 }
