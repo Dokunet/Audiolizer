@@ -26,7 +26,7 @@ async function getRGB() {
         normalCounter ++;
     }
 
-var frameCount = audioCtx.sampleRate * 30;
+var frameCount = audioCtx.sampleRate * (normalCounter / 12000);
     let myArrayBuffer = audioCtx.createBuffer(3, frameCount, audioCtx.sampleRate);
    console.log(frameCount);
     for (var channel = 0; channel < myArrayBuffer.numberOfChannels; channel ++){
@@ -41,6 +41,8 @@ var frameCount = audioCtx.sampleRate * 30;
       //source = audioCtx.createBufferSource();
     source.buffer = myArrayBuffer; 
     console.log(myArrayBuffer);
+    $("#after_input").css('visibility', 'visible');
+    $("#after_input").show("slow");
 } 
 
 
@@ -51,9 +53,6 @@ async function playSound(){
 }
 
 async function download(){
-    console.log(source);
-    console.log($('#file-type').val() + "sdkjfgsdikfjb")
-    console.log($(this))
     var a = document.createElement("a");
     document.getElementById("right_panel").appendChild(a);
     source.buffer = audioCtx.createBufferSource();
